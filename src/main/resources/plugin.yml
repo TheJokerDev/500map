@@ -1,7 +1,13 @@
-name: SpigotTemplate
+name: 500Map
 version: '${version}'
-main: plugin.template.spigot.Main
+main: me.j0keer.fhmap.Main
 api-version: 1.19
 depend:
   - PlaceholderAPI
-description: Template for Spigot plugins.
+  - FastAsyncWorldEdit
+
+description: Plugin for all relationated to 500 dollars map to SpreenDMC
+
+libraries:
+  - org.projectlombok:lombok:1.18.28
+  - com.github.cryptomorin:XSeries:9.3.1
