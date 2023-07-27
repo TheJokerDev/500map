@@ -5,6 +5,7 @@ import me.j0keer.fhmap.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,10 +31,9 @@ public class Villain {
     private int  dashing_max_tick;
     private int dashing_back_tick = 0;
     private boolean in_left_face = false;
-
     private int dash_back_cooldown;
-
     private double dash_distance_movement;
+    private boolean round_damaged = false;
 
     public Villain(Main plugin, int health, int dash_cooldown, double damage, int dash_max_movement, double dash_distance_movement){
         this.plugin = plugin;
@@ -46,7 +46,7 @@ public class Villain {
     }
 
     public Villain(Main plugin){
-        this(plugin, 5, 5 * 20, 1.3, 8, 1.5);
+        this(plugin, 5, 5 * 20, 1.2, 8, 1.5);
     }
 
     public void spawn(Location location){
@@ -114,6 +114,7 @@ public class Villain {
                 if(dashing_tick >= dashing_max_tick){
                     state = State.MOVE;
                     dashing_tick = 0;
+                    round_damaged = false;
                 }else{
                     dashing_tick++;
                     dashing(false);
@@ -142,6 +143,14 @@ public class Villain {
     }
 
     public void damage(int damage){
+        if(round_damaged){
+            plugin.getUtils().debugToDev("Ya has hecho el daño de esta ronda");
+            return;
+        }
+
+        stand.getWorld().playSound(stand, Sound.BLOCK_MUD_BRICKS_HIT, 1, -2);
+
+        round_damaged = true;
         health-=damage;
 
         if(health <= 0)
@@ -162,7 +171,13 @@ public class Villain {
 
         if(can_left || can_right){
             List<Player> players = Bukkit.getOnlinePlayers().stream().filter(target -> target.getGameMode().equals(GameMode.ADVENTURE) && target.getLocation().distance(stand.getLocation()) <= 2).collect(Collectors.toList());Collectors.toList();
-            players.forEach(target -> target.damage(damage));
+            players.forEach(target -> {
+                target.damage(damage);
+                boolean left = target.getLocation().getX() <= stand.getLocation().getX();
+                double x = left ? -0.7 : 0.7;
+                Vector vector = new Vector(x, 0.2, 0);
+                target.setVelocity(vector);
+            });
         }
     }
 

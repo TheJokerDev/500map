@@ -474,12 +474,12 @@ public class Game implements Listener {
                         return;
 
                     villain.damage(1);
-                    entity.setVelocity(new Vector((double)xDir * velocityDampener, velocityDampener, 0.0));
+                    //entity.setVelocity(new Vector((double)xDir * velocityDampener, velocityDampener, 0.0));
                     //punch player to left
-                    player.setVelocity(new Vector((double)-xDir * velocityDampener, velocityDampener, 0.0));
+                    //player.setVelocity(new Vector((double)-xDir * velocityDampener, velocityDampener, 0.0));
 
-                    player.damage(3, stand);
-                    cooldownAttack.add(player.getName());
+                    //player.damage(3, stand);
+                    //cooldownAttack.add(player.getName());
 
                     plugin.getUtils().debugToDev("Villain attacked");
                     new BukkitRunnable() {
