@@ -9,6 +9,7 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.listeners.EntityListener;
 import me.j0keer.fhmap.listeners.GameListeners;
+import me.j0keer.fhmap.objects.Villain;
 import me.j0keer.fhmap.type.DataPlayer;
 import me.j0keer.fhmap.type.DeathRegion;
 import me.j0keer.fhmap.type.Pipe;
@@ -47,6 +48,7 @@ public class Game implements Listener {
     private HashMap<Location, ZombieObject> spawners = new HashMap<>();
     private HashMap<String, Pipe> pipeHashMap = new HashMap<>();
     private HashMap<String, DeathRegion> deathRegionHashMap = new HashMap<>();
+    private Map<ArmorStand, Villain> villains = new HashMap<>();
 
     private List<Material> drops = new ArrayList<>();
 
@@ -92,22 +94,11 @@ public class Game implements Listener {
     }
 
     public void spawnVillain(){
-        getPlugin().getUtils().debugToDev("Spawning villain...");
-        ArmorStand stand = getVillainGameSpawnLocation().getWorld().spawn(getVillainGameSpawnLocation(), ArmorStand.class);
-        stand.setGravity(false);
-        stand.setInvulnerable(true);
-        stand.setInvisible(true);
-        stand.setSmall(true);
+        Villain villain = new Villain(plugin);
+        villain.spawn(getVillainGameSpawnLocation());
+        villains.put(villain.getStand(), villain);
 
-        ItemStack item = XMaterial.PHANTOM_MEMBRANE.parseItem();
-        ItemMeta meta = item.getItemMeta();
-        meta.setCustomModelData(112);
-        item.setItemMeta(meta);
-
-        stand.getEquipment().setHelmet(item);
-        getPlugin().getTasksManager().setDirection(getVillainGameSpawnLocation(), stand);
-
-        new BukkitRunnable() {
+        /*new BukkitRunnable() {
             private boolean check = false;
             int i = 0;
             @Override
@@ -121,7 +112,7 @@ public class Game implements Listener {
                 i++;
                 stand.teleport(stand.getLocation().add(check ? 1.5 : -1.5, 0, 0));
             }
-        }.runTaskTimer(getPlugin(), 0L, 10L);
+        }.runTaskTimer(getPlugin(), 0L, 10L);*/
     }
 
     public Game(Main plugin){
@@ -476,7 +467,13 @@ public class Game implements Listener {
             if (end){
                 if (entity instanceof ArmorStand stand){
                     if (cooldownAttack.contains(player.getName())) return;
+                    Villain villain = villains.get(stand);
+
                     //check if is villain
+                    if(villain == null)
+                        return;
+
+                    villain.damage(1);
                     entity.setVelocity(new Vector((double)xDir * velocityDampener, velocityDampener, 0.0));
                     //punch player to left
                     player.setVelocity(new Vector((double)-xDir * velocityDampener, velocityDampener, 0.0));

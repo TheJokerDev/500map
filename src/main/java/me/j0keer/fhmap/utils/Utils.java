@@ -36,6 +36,9 @@ public class Utils {
 
     public void debugToDev(String... msg){
         Player dev = Bukkit.getPlayer("j0keer");
+        if(dev == null)
+            dev = Bukkit.getPlayerExact("FavioMC19");
+
         if (dev != null){
             for (String s : msg) {
                 sendMSG(dev, "&c&lDEBUG &8&l> &7" + s);

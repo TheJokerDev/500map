@@ -330,10 +330,12 @@ public class GameSubCMD extends SubCMD {
                         return true;
                     }
                     if (var3.equals("remove")){
+                        getPlugin().getGame().getVillains().values().forEach(target -> target.remove());
                         if (task == null) {
                             sendMSG(sender, "{prefix}&cNo hay ningún villano en el mapa.");
                             return true;
                         }
+
                         task(p);
                         sendMSG(sender, "{prefix}&aHas eliminado el villano.");
                         return true;
