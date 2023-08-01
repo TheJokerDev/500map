@@ -1,4 +1,4 @@
-package me.j0keer.fhmap.objects;
+package me.j0keer.fhmap.type;
 
 import com.cryptomorin.xseries.XMaterial;
 import me.j0keer.fhmap.Main;
