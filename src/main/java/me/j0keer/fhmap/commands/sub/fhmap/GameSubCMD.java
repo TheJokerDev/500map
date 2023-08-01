@@ -10,13 +10,11 @@ import com.sk89q.worldedit.regions.Region;
 import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.SenderTypes;
 import me.j0keer.fhmap.type.DataPlayer;
+import me.j0keer.fhmap.type.ItemObject;
 import me.j0keer.fhmap.type.Pipe;
 import me.j0keer.fhmap.type.SubCMD;
 import me.j0keer.fhmap.utils.LocationUtil;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -351,6 +349,12 @@ public class GameSubCMD extends SubCMD {
                         //XParticle.eye(2, 3, 5, 1, display);
                         sendMSG(sender, "{prefix}&aHas invocado las particulas.");
                     }
+                }
+                if (var2.equals("item")){
+                    ItemObject object = new ItemObject(ItemObject.ItemObjectType.COIN, getPlugin());
+                    object.spawn(p.getLocation());
+
+                    Bukkit.getScheduler().runTaskLater(getPlugin(), () -> object.remove(), 200);
                 }
             }
             case "join" -> {

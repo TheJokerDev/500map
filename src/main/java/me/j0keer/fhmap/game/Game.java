@@ -8,11 +8,7 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.listeners.EntityListener;
 import me.j0keer.fhmap.listeners.GameListeners;
-import me.j0keer.fhmap.type.Villain;
-import me.j0keer.fhmap.type.DataPlayer;
-import me.j0keer.fhmap.type.DeathRegion;
-import me.j0keer.fhmap.type.Pipe;
-import me.j0keer.fhmap.type.ZombieObject;
+import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import me.j0keer.fhmap.utils.SPBlock;
 import org.bukkit.Location;
@@ -47,7 +43,7 @@ public class Game implements Listener {
     private HashMap<String, DeathRegion> deathRegionHashMap = new HashMap<>();
     private Map<ArmorStand, Villain> villains = new HashMap<>();
 
-    private List<Material> drops = new ArrayList<>();
+    public List<Material> drops = new ArrayList<>();
 
     private boolean end = false;
 
@@ -420,7 +416,9 @@ public class Game implements Listener {
                     repeatableBlocks.put(getBlockOnTop.getLocation(), tries);
                     if (tries < 5) {
                         GameSound.BLOCK_COIN.play(p, 0.3f, 1);
-                        dataPlayer.addCoin();
+                        //dataPlayer.addCoin();
+                        ItemObject object = new ItemObject(ItemObject.ItemObjectType.COIN, getPlugin());
+                        object.spawn(getBlockOnTop);
                         return;
                     }
                 }
@@ -433,6 +431,9 @@ public class Game implements Listener {
                     GameSound.BLOCK_COIN.play(p, 0.3f, 1);
                     dataPlayer.addCoin();
                 } else {
+                    ItemObject.ItemObjectType[] drop = new ItemObject.ItemObjectType[]{ItemObject.ItemObjectType.FLINT, ItemObject.ItemObjectType.FOOD, ItemObject.ItemObjectType.NORMAL};
+                    ItemObject object = new ItemObject(drop[new Random().nextInt(drop.length-1)], getPlugin());
+                    object.spawn(getBlockOnTop);
                     p.getInventory().addItem(new ItemStack(drops.get(new Random().nextInt(drops.size()-1))));
                     GameSound.BLOCK_BONUS.play(p,0.5f, 1);
                 }
