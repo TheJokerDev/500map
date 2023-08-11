@@ -135,9 +135,7 @@ public final class Main extends JavaPlugin {
             getCmdManager().getObjectiveCMD().getBar().removeAll();
         }
 
-        if (getGame() != null){
-            getGame().reset();
-        }
+
 
         getDataManager().getPlayers().forEach((uuid, dataPlayer) -> {
             if (dataPlayer.isInGame()){

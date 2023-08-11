@@ -15,6 +15,7 @@ public class FHMapCMD extends CMD {
     public FHMapCMD(Main plugin) {
         super(plugin);
         addSubCMD(new ReloadSubCMD(plugin));
+        addSubCMD(new ReloadPluginSubCMD(plugin));
         addSubCMD(new ToggleModuleSubCMD(plugin));
         addSubCMD(new RegionsSubCMD(plugin));
         addSubCMD(new GameSubCMD(plugin));

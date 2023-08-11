@@ -230,13 +230,13 @@ public class DataPlayer {
                 @Override
                 public void run() {
                     plugin.getCameraManager().lockCamera(getPlayer());
-                    plugin.getCameraManager().lockMovementAxis(getPlayer(), 'x');
+                    plugin.getCameraManager().lockMovementAxis(getPlayer(), 'z');
                 }
             }.runTaskLater(plugin, 3L);
         } else {
-            plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.FIRST_PERSON);
             plugin.getCameraManager().unlockCamera(getPlayer());
-            plugin.getCameraManager().unlockMovementAxis(getPlayer(), 'x');
+            plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.FIRST_PERSON);
+            plugin.getCameraManager().unlockMovementAxis(getPlayer(), 'z');
             getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
             getPlayer().removePotionEffect(PotionEffectType.JUMP);
             if (contents != null) {
@@ -439,6 +439,10 @@ public class DataPlayer {
                 }
             }
         }.runTaskTimer(plugin, 1L, 0L);
+
+        plugin.getCameraManager().unlockCamera(getPlayer());
+        plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.THIRD_PERSON_BACK);
+        plugin.getCameraManager().lockCamera(getPlayer());
     }
 
     private Location checkpoint;

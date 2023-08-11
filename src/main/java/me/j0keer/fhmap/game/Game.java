@@ -8,6 +8,7 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.listeners.EntityListener;
 import me.j0keer.fhmap.listeners.GameListeners;
+import me.j0keer.fhmap.managers.CameraManager;
 import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import me.j0keer.fhmap.utils.SPBlock;
@@ -214,6 +215,11 @@ public class Game implements Listener {
         spawners.clear();
         end = false;
         loadSpawners();
+        playings.forEach(player ->{
+            plugin.getCameraManager().unlockCamera(player.getPlayer());
+            plugin.getCameraManager().changeCamera(player.getPlayer(), CameraManager.Perspective.FIRST_PERSON);
+            plugin.getCameraManager().unlockMovementAxis(player.getPlayer(), 'z');
+        });
     }
 
     public void addSpawner(Location loc){

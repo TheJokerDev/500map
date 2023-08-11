@@ -11,6 +11,7 @@ public class CameraManager {
         this.plugin = plugin;
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:camera_lock");
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:perspective_change");
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:axis_lock");
     }
 
     public void lockCamera(Player player){
