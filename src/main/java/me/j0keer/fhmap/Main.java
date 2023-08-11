@@ -151,8 +151,4 @@ public final class Main extends JavaPlugin {
         ms = System.currentTimeMillis()-ms;
         console("{prefix}&fPlugin disabled successfully in &e"+ms+"&fms.");
     }
-
-    public CameraManager getCameraManager(){
-        return cameraManager;
-    }
 }
