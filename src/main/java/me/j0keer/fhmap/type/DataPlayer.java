@@ -354,6 +354,9 @@ public class DataPlayer {
         plugin.getGame().getSpawners().values().forEach(ZombieObject::toggleIA);
         dead = true;
         int id = getPlayerAnimationHandler().getDirection() == Direction.RIGHT ? 21 : 22;
+        if (isSmall()){
+            id = getPlayerAnimationHandler().getDirection() == Direction.RIGHT ? 39 : 40;
+        }
         AnimationHandler.changeAnimation(getPlayer(), id);
         getPlayerAnimationHandler().setPause(true);
         ItemStack helmet = getPlayer().getInventory().getHelmet();
