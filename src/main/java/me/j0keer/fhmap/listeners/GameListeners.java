@@ -20,8 +20,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
@@ -191,6 +189,10 @@ public class GameListeners implements Listener {
                 p.setFireTicks(0);
                 p.setVisualFire(false);
                 event.setCancelled(true);
+                return;
+            }
+            if (dp.isSmall()){
+                AnimationHandler.changeAnimationLeftRight(p, dp.getPlayerAnimationHandler().getDirection(), 42, 41);
                 return;
             }
             AnimationHandler.changeAnimationLeftRight(p, dp.getPlayerAnimationHandler().getDirection(), 24, 23);

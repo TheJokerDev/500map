@@ -45,10 +45,38 @@ public class DataPlayer {
     private BossBar gameUpBar;
     private BossBar gameBar;
 
+    //Game utils
+    boolean small = false;
+
     public DataPlayer(Player player){
         this.player = player;
         loadItems();
         playerAnimationHandler = new PlayerAnimationHandler();
+    }
+
+    private boolean sizeCooldown = false;
+    public void setSmall(boolean small) {
+        if (sizeCooldown) return;
+        sizeAnimation(small);
+    }
+
+    public void sizeAnimation(boolean bool){
+        sizeCooldown = true;
+
+        new BukkitRunnable() {
+            private int i = 0;
+            @Override
+            public void run() {
+                if (i >= 5) {
+                    small = bool;
+                    sizeCooldown = false;
+                    cancel();
+                    return;
+                }
+                small = !small;
+                i++;
+            }
+        }.runTaskTimer(plugin, 7L, 0L);
     }
 
     public void setVanished(boolean vanished) {

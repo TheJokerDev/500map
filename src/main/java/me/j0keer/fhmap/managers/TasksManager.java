@@ -56,8 +56,8 @@ public class TasksManager {
         animation = new BukkitRunnable() {
             @Override
             public void run() {
-                plugin.getServer().getOnlinePlayers().stream().filter(p-> plugin.getDataManager().getDataPlayer(p).isInGame() && !p.isDead()).forEach(player -> {
-                    plugin.getDataManager().getDataPlayer(player).getPlayerAnimationHandler().updateAnimation(player);
+                plugin.getDataManager().getPlayers().values().stream().filter(dp -> dp.isInGame() && !dp.getPlayer().isDead()).forEach(dp -> {
+                    dp.getPlayerAnimationHandler().updateAnimation(dp);
                 });
             }
         }.runTaskTimer(plugin, 1L, 0L);

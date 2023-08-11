@@ -131,17 +131,17 @@ public class GameSubCMD extends SubCMD {
                     }
                     return true;
                 }
-                if (var2.equals("editpipe")){
-                    if (args.length == 2){
+                if (var2.equals("editpipe")) {
+                    if (args.length == 2) {
                         sendMSG(sender, "{prefix}&cNecesitas especificar el id de la tubería.");
                         return true;
                     }
                     String id = args[2];
-                    if (!getPlugin().getGame().getPipeHashMap().containsKey(id)){
-                        sendMSG(sender, "{prefix}&cNo existe una tubería con el id "+id+".");
+                    if (!getPlugin().getGame().getPipeHashMap().containsKey(id)) {
+                        sendMSG(sender, "{prefix}&cNo existe una tubería con el id " + id + ".");
                         return true;
                     }
-                    if (args.length == 3){
+                    if (args.length == 3) {
                         sendMSG(sender, "{prefix}&cNecesitas especificar el argumento a modificar con el comando /map game setup editpipe.");
                         return true;
                     }
@@ -222,6 +222,26 @@ public class GameSubCMD extends SubCMD {
                     return true;
                 }
                 getPlugin().getGame().setEnd(true);
+            }
+            case "togglesize" -> {
+                if (args.length < 2) {
+                    sendMSG(sender, "{prefix}&cNecesitas especificar el nombre de un jugador.");
+                    return true;
+                }
+                Player target = Bukkit.getPlayer(args[1]);
+                if (target == null) {
+                    sendMSG(sender, "{prefix}&cEl jugador especificado no está conectado.");
+                    return true;
+                }
+                DataPlayer dp = getPlugin().getDataManager().getDataPlayer(target);
+                if (dp.isSizeCooldown()) {
+                    sendMSG(sender, "{prefix}&cEl jugador especificado ya está cambiando de tamaño. Espera un ratito para poder usar de nuevo este comando.");
+                    return true;
+                }
+                boolean small = !dp.isSmall();
+                dp.setSmall(small);
+                sendMSG(sender, "{prefix}&aHas cambiado el tamaño de " + target.getName() + " a " + (small ? "pequeño" : "grande") + ".");
+                return true;
             }
             case "summon" -> {
                 if (args.length == 1){
@@ -422,9 +442,12 @@ public class GameSubCMD extends SubCMD {
     @Override
     public List<String> onTab(CommandSender sender, String alias, String[] args) {
         if (args.length == 1){
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("initend", "setup", "spawn", "summon", "test", "join", "leave", "reset"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "reset"), new ArrayList<>());
         }
         if (args.length == 2){
+            if (args[0].equalsIgnoreCase("togglesize")) {
+                return null;
+            }
             if (args[0].equalsIgnoreCase("setup")) {
                 return StringUtil.copyPartialMatches(args[1], Arrays.asList("setvillainspawn", "setvillaingamespawn", "setspawn", "setlobby", "setgamespawn",  "setlobbyspawn", "addspawner", "removespawner", "addpipe", "removepipe", "editpipe", "adddeathregion", "removedeathregion"), new ArrayList<>());
             }
