@@ -33,6 +33,7 @@ public final class Main extends JavaPlugin {
     private WorldEdit worldEdit;
 
     private TasksManager tasksManager;
+    @Getter
     private CameraManager cameraManager;
 
     private Game game;
@@ -145,6 +146,9 @@ public final class Main extends JavaPlugin {
                 }
             }
         });
+
+        if(plugin.getGame() != null)
+            getGame().reset();
 
         ms = System.currentTimeMillis()-ms;
         console("{prefix}&fPlugin disabled successfully in &e"+ms+"&fms.");

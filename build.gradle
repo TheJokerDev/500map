@@ -22,7 +22,6 @@ repositories {
 dependencies {
     //Spigot API libraries
     compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
-
     //Lombok libraries and annotator processor identifier
     compileOnly('org.projectlombok:lombok:1.18.28')
     annotationProcessor 'org.projectlombok:lombok:1.18.28'
@@ -35,9 +34,11 @@ dependencies {
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit")
 
-    compileOnly("io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT")
+
+    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
     compileOnly files('libs/SPCinematics-1.0.1.jar')
+    compileOnly files('libs/spigot-1.19.2-R0.1-SNAPSHOT.jar')
 
     implementation group: 'io.netty', name: 'netty-all', version: '4.1.96.Final'
 }

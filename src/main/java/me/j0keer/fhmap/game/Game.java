@@ -215,11 +215,6 @@ public class Game implements Listener {
         spawners.clear();
         end = false;
         loadSpawners();
-        playings.forEach(player ->{
-            plugin.getCameraManager().unlockCamera(player.getPlayer());
-            plugin.getCameraManager().changeCamera(player.getPlayer(), CameraManager.Perspective.FIRST_PERSON);
-            plugin.getCameraManager().unlockMovementAxis(player.getPlayer(), 'z');
-        });
     }
 
     public void addSpawner(Location loc){
@@ -438,9 +433,16 @@ public class Game implements Listener {
                     GameSound.BLOCK_COIN.play(p, 0.3f, 1);
                     dataPlayer.addCoin();
                 } else {
-                    ItemObject.ItemObjectType[] drop = new ItemObject.ItemObjectType[]{ItemObject.ItemObjectType.FLINT, ItemObject.ItemObjectType.FOOD, ItemObject.ItemObjectType.NORMAL};
-                    ItemObject object = new ItemObject(drop[new Random().nextInt(drop.length-1)], getPlugin());
-                    object.spawn(getBlockOnTop);
+                    boolean ran = new Random().nextBoolean();
+                    if(ran){
+                        ItemObject.ItemObjectType[] drop = new ItemObject.ItemObjectType[]{ItemObject.ItemObjectType.FLINT, ItemObject.ItemObjectType.FOOD, ItemObject.ItemObjectType.NORMAL};
+                        ItemObject object = new ItemObject(drop[new Random().nextInt(drop.length-1)], getPlugin());
+                        object.spawn(getBlockOnTop);
+                    }else{
+                        ItemObject object = new ItemObject(ItemObject.ItemObjectType.NORMAL, plugin);
+                        object.spawn(getBlockOnTop);
+                    }
+
                     p.getInventory().addItem(new ItemStack(drops.get(new Random().nextInt(drops.size()-1))));
                     GameSound.BLOCK_BONUS.play(p,0.5f, 1);
                 }

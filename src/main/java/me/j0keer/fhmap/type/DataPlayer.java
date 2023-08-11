@@ -45,6 +45,8 @@ public class DataPlayer {
     private BossBar gameUpBar;
     private BossBar gameBar;
 
+    public boolean ignoreCancelled = false;
+
     //Game utils
     boolean small = false;
 
@@ -57,18 +59,28 @@ public class DataPlayer {
     private boolean sizeCooldown = false;
     public void setSmall(boolean small) {
         if (sizeCooldown) return;
+
+        if(small){
+            getPlayer().setSwimming(true);
+            ignoreCancelled = true;
+        }else{
+            ignoreCancelled = false;
+            getPlayer().setSwimming(false);
+        }
         sizeAnimation(small);
+        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, small ? 2 : 3, false, false));
+        plugin.getCameraManager().changeSize(getPlayer(), small);
     }
 
     public void sizeAnimation(boolean bool){
         sizeCooldown = true;
-
         new BukkitRunnable() {
             private int i = 0;
             @Override
             public void run() {
                 if (i >= 5) {
                     small = bool;
+                    plugin.getCameraManager().changeSize(getPlayer(), small);
                     sizeCooldown = false;
                     cancel();
                     return;
@@ -77,6 +89,13 @@ public class DataPlayer {
                 i++;
             }
         }.runTaskTimer(plugin, 7L, 0L);
+    }
+
+    public void playSound(sound s){
+        getPlayer().playSound(getPlayer().getLocation(), "500map:"+s.name().toLowerCase(), 1f, 1f);
+    }
+    public enum sound{
+        LEVEL_UP, LEVEL_DOWN
     }
 
     public void setVanished(boolean vanished) {
@@ -205,8 +224,8 @@ public class DataPlayer {
     public void setInGame(boolean inGame) {
         this.inGame = inGame;
         if (inGame){
+            setSmall(true);
             getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 1, false, false));
-            getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 3, false, false));
             contents = getPlayer().getInventory().getContents();
             getPlayer().getInventory().clear();
             location = getPlayer().getLocation();
@@ -234,6 +253,7 @@ public class DataPlayer {
                 }
             }.runTaskLater(plugin, 3L);
         } else {
+            plugin.getCameraManager().changeSize(player, false);
             plugin.getCameraManager().unlockCamera(getPlayer());
             plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.FIRST_PERSON);
             plugin.getCameraManager().unlockMovementAxis(getPlayer(), 'z');
@@ -358,6 +378,13 @@ public class DataPlayer {
 
     public void death(){
         if (!isInGame()) return;
+
+        if(!isSmall()){
+            setSmall(true);
+            playSound(sound.LEVEL_DOWN);
+            return;
+        }
+
         plugin.getGame().getSpawners().values().forEach(ZombieObject::toggleIA);
         dead = true;
         int id = getPlayerAnimationHandler().getDirection() == Direction.RIGHT ? 21 : 22;
@@ -432,6 +459,7 @@ public class DataPlayer {
                     getPlayerAnimationHandler().setPause(false);
                     teleportToLastLoc();
                     resetStats();
+                    setSmall(true);
                     return;
                 }
                 if (up && difference <= 0.01){
@@ -439,10 +467,6 @@ public class DataPlayer {
                 }
             }
         }.runTaskTimer(plugin, 1L, 0L);
-
-        plugin.getCameraManager().unlockCamera(getPlayer());
-        plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.THIRD_PERSON_BACK);
-        plugin.getCameraManager().lockCamera(getPlayer());
     }
 
     private Location checkpoint;

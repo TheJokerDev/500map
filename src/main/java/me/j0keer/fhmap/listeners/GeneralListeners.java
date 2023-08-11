@@ -4,9 +4,11 @@ import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.Modules;
 import me.j0keer.fhmap.type.DataPlayer;
 import org.bukkit.GameMode;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -112,6 +114,28 @@ public class GeneralListeners implements Listener {
         p.setBedSpawnLocation(plugin.getGame().getSpawn(), true);
         p.spigot().respawn();
         p.teleport(plugin.getGame().getSpawn());
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onEntityDamageDeath(EntityDamageEvent event){
+        if(!(event.getEntity() instanceof Player))
+            return;
+
+        Player player = (Player) event.getEntity();
+
+        if(player.getHealth() <= event.getFinalDamage()){
+            DataPlayer dp = plugin.getDataManager().getDataPlayer(player);
+            if(!dp.isInGame())
+                return;
+
+            event.setDamage(0.0d);
+            if(!dp.isSmall()){
+                dp.playSound(DataPlayer.sound.LEVEL_DOWN);
+                dp.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / 2);
+            }
+
+            dp.death();
+        }
     }
 
     //Block break cancel event

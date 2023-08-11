@@ -32,8 +32,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GameSubCMD extends SubCMD {
+    Main plugin;
     public GameSubCMD(Main plugin) {
         super(plugin);
+        this.plugin = plugin;
     }
 
     @Override
@@ -302,6 +304,22 @@ public class GameSubCMD extends SubCMD {
                     return true;
                 }
                 String var2 = args[1].toLowerCase();
+                if(var2.equals("shader")){//mapa test shader <player> long_time float_size int_id
+                    if(args.length != 6){
+                        sendMSG(sender, "{prefix}&c <long_time> <float_size> <ind_id>.");
+                        return true;
+                    }
+
+                    try{
+                        Player player = Bukkit.getPlayerExact(args[2]);
+                        long time = Long.parseLong(args[3]);
+                        float size = Float.parseFloat(args[4]);
+                        int id = Integer.parseInt(args[5]);
+                        plugin.getCameraManager().sendShaderEffect(player, time, size, id);
+                    }catch(Exception ex){
+                        ex.printStackTrace();
+                    }
+                }
                 if (var2.equals("stress")){
                     if (args.length == 2){
                         sendMSG(sender, "{prefix}&cNecesitas especificar el jugador para estresar.");

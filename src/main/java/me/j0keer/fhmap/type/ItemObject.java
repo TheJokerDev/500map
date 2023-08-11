@@ -15,6 +15,7 @@ import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -86,6 +87,11 @@ public class ItemObject {
                     armor.setGravity(false);
                 });
             }
+            case NORMAL -> {
+                entity = location.getWorld().dropItem(spawnLocation, new ItemStack(Material.DIAMOND), item ->{
+                    item.setOwner(UUID.randomUUID());
+                });
+            }
         }
         entity.setGravity(false);
         entity.setVelocity(new Vector(0, 0, 0));
@@ -103,10 +109,7 @@ public class ItemObject {
         }
 
         if(checkPickup()){
-            plugin.getLogger().info("pickup");
             return;
-        }else{
-            plugin.getLogger().info("no pickup "+(live_ticks % 2));
         }
 
         if(!type.equals(ItemObjectType.FIREBALL)){
@@ -172,12 +175,12 @@ public class ItemObject {
         if(live_ticks % 2 == 0 || type.equals(ItemObjectType.FIREBALL))
             return false;
 
-        List<Player> players = plugin.getGame().playings.stream().map(DataPlayer::getPlayer).collect(Collectors.toList());
+        List<Player> players = plugin.getGame().playings.stream().map(DataPlayer::getPlayer).toList();
         double distance = Double.MAX_VALUE;
         Player player = null;
 
         for(Player p : players){
-            double dis= entity.getLocation().distance(p.getPlayer().getLocation());
+            double dis= entity.getLocation().distance(Objects.requireNonNull(p.getPlayer()).getLocation());
             boolean inRange = dis <= 1.3;
             if(inRange && dis < distance){
                 distance = dis;
@@ -214,7 +217,12 @@ public class ItemObject {
                 //aqui deberia golpear la bola si es que daña jugadores, si no pos no
             }
             case NORMAL -> {
-                //aqui deberia hacerlo crecer
+                DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
+                if(dataPlayer.isSmall()){
+                    dataPlayer.setSmall(false);
+                    dataPlayer.playSound(DataPlayer.sound.LEVEL_UP);
+                }
+
             }
         }
     }

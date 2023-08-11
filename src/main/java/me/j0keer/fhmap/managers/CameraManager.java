@@ -12,6 +12,8 @@ public class CameraManager {
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:camera_lock");
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:perspective_change");
         plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:axis_lock");
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:change_size");
+        plugin.getServer().getMessenger().registerOutgoingPluginChannel(plugin, "onlyup:shader_effect");
     }
 
     public void lockCamera(Player player){
@@ -60,6 +62,32 @@ public class CameraManager {
         try {
             buf.writeBoolean(lock);
             player.sendPluginMessage(plugin, "onlyup:camera_lock", buf.array());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            buf.clear();
+        }
+    }
+
+    public void changeSize(Player player, boolean small){
+        FriendlyByteBuf buf = new FriendlyByteBuf();
+        try {
+            buf.writeBoolean(small);
+            player.sendPluginMessage(plugin, "onlyup:change_size", buf.array());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            buf.clear();
+        }
+    }
+
+    public void sendShaderEffect(Player player, long time, float size, int id){
+        FriendlyByteBuf buf = new FriendlyByteBuf();
+        try {
+            buf.writeInt(id);
+            buf.writeLong(time);
+            buf.writeFloat(size);
+            player.sendPluginMessage(plugin, "onlyup:shader_effect", buf.array());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

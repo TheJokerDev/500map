@@ -3,6 +3,7 @@ package me.j0keer.fhmap.commands.sub.fhmap;
 import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.Regions;
 import me.j0keer.fhmap.enums.SenderTypes;
+import me.j0keer.fhmap.managers.CameraManager;
 import me.j0keer.fhmap.type.SubCMD;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -42,7 +43,11 @@ public class ReloadPluginSubCMD extends SubCMD {
     public boolean onCommand(CommandSender sender, String alias, String[] args) {
         if (args.length == 0){
             if (getPlugin().getGame() != null){
-                getPlugin().getGame().reset();
+                getPlugin().getGame().playings.forEach(player ->{
+                    getPlugin().getCameraManager().unlockCamera(player.getPlayer());
+                    getPlugin().getCameraManager().changeCamera(player.getPlayer(), CameraManager.Perspective.FIRST_PERSON);
+                    getPlugin().getCameraManager().unlockMovementAxis(player.getPlayer(), 'z');
+                });
             }
             new BukkitRunnable() {
                 @Override
