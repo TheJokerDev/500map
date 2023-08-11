@@ -21,6 +21,27 @@ public class CameraManager {
         changeLockedCamera(player, false);
     }
 
+    public void lockMovementAxis(Player player, char axis){
+        changeLockedMovementAxis(player, axis, true);
+    }
+
+    public void unlockMovementAxis(Player player, char axis){
+        changeLockedMovementAxis(player, axis, false);
+    }
+
+    private void changeLockedMovementAxis(Player player, char axis, boolean lock){
+        FriendlyByteBuf buf = new FriendlyByteBuf();
+        try {
+            buf.writeChar(axis);
+            buf.writeBoolean(lock);
+            player.sendPluginMessage(plugin, "onlyup:axis_lock", buf.array());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            buf.clear();
+        }
+    }
+
     public void changeCamera(Player player, Perspective perspective){
         FriendlyByteBuf buf = new FriendlyByteBuf();
         try {
