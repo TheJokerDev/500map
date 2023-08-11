@@ -8,6 +8,7 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.handler.AnimationHandler;
 import me.j0keer.fhmap.handler.PlayerAnimationHandler;
+import me.j0keer.fhmap.managers.CameraManager;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -27,7 +28,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 @Getter @Setter
@@ -190,13 +190,18 @@ public class DataPlayer {
             getPlayer().setFoodLevel(20);
             foodLevel = getPlayer().getFoodLevel();
 
+            plugin.getGame().playings.add(this);
             gameTask = new BukkitRunnable() {
                 @Override
                 public void run() {
                     task();
                 }
             }.runTaskTimer(plugin, 1L, 0L);
+            plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.THIRD_PERSON_BACK);
+            plugin.getCameraManager().lockCamera(getPlayer());
         } else {
+            plugin.getCameraManager().changeCamera(getPlayer(), CameraManager.Perspective.FIRST_PERSON);
+            plugin.getCameraManager().unlockCamera(getPlayer());
             getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
             getPlayer().removePotionEffect(PotionEffectType.JUMP);
             if (contents != null) {
@@ -227,6 +232,8 @@ public class DataPlayer {
             gameUpBar = null;
             time = 0;
             coins = 0;
+
+            plugin.getGame().playings.remove(this);
         }
     }
 

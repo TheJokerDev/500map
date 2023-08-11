@@ -5,16 +5,20 @@ import me.j0keer.fhmap.enums.Direction;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 public class ItemObject {
     private Main plugin;
@@ -27,6 +31,8 @@ public class ItemObject {
     private Entity entity;
     private Direction direction;
     private BukkitTask task;
+
+    private Material foodMaterial;
 
     private int live_ticks = 300;
 
@@ -70,6 +76,7 @@ public class ItemObject {
             case FOOD -> {
                 entity = location.getWorld().dropItem(spawnLocation, new ItemStack(plugin.getGame().drops.get(new Random().nextInt(plugin.getGame().drops.size()-1))), item ->{
                     item.setOwner(UUID.randomUUID());
+                    foodMaterial = item.getItemStack().getType();
                 });
             }
             case FIREBALL -> {
@@ -95,6 +102,13 @@ public class ItemObject {
             return;
         }
 
+        if(checkPickup()){
+            plugin.getLogger().info("pickup");
+            return;
+        }else{
+            plugin.getLogger().info("no pickup "+(live_ticks % 2));
+        }
+
         if(!type.equals(ItemObjectType.FIREBALL)){
             if(up_points > 0){
                 up_points--;
@@ -116,9 +130,7 @@ public class ItemObject {
                 y = -gravity;
             }
 
-
             direction = isSolid ? (direction.equals(Direction.LEFT) ? Direction.RIGHT : Direction.LEFT) : direction;
-            plugin.getLogger().info(entity.getLocation().toVector().toString()+" -> "+location.toVector().toString());
             Vector vector = new Vector(x, y, 0);
             entity.setVelocity(vector);
             //entity.teleport(location);
@@ -154,6 +166,57 @@ public class ItemObject {
 
         if(entity != null)
             entity.remove();
+    }
+
+    public boolean checkPickup(){
+        if(live_ticks % 2 == 0 || type.equals(ItemObjectType.FIREBALL))
+            return false;
+
+        List<Player> players = plugin.getGame().playings.stream().map(DataPlayer::getPlayer).collect(Collectors.toList());
+        double distance = Double.MAX_VALUE;
+        Player player = null;
+
+        for(Player p : players){
+            double dis= entity.getLocation().distance(p.getPlayer().getLocation());
+            boolean inRange = dis <= 1.3;
+            if(inRange && dis < distance){
+                distance = dis;
+                player = p;
+            }
+        }
+
+        if(player != null){
+            pickup(player);
+            return true;
+        }
+
+        return false;
+    }
+
+    private void pickup(Player player){
+        remove();
+
+        switch (type){
+
+            case COIN -> {
+                player.getInventory().addItem(new ItemStack(Material.EMERALD));
+                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+            }
+            case FLINT -> {
+                player.getInventory().addItem(new ItemStack((Material.FLINT_AND_STEEL)));
+                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+            }
+            case FOOD -> {
+                player.getInventory().addItem(new ItemStack(foodMaterial));
+                player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1f, 1f);
+            }
+            case FIREBALL -> {
+                //aqui deberia golpear la bola si es que daña jugadores, si no pos no
+            }
+            case NORMAL -> {
+                //aqui deberia hacerlo crecer
+            }
+        }
     }
 
     public enum ItemObjectType{

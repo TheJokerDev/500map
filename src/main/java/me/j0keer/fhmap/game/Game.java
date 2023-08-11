@@ -44,6 +44,7 @@ public class Game implements Listener {
     private Map<ArmorStand, Villain> villains = new HashMap<>();
 
     public List<Material> drops = new ArrayList<>();
+    public List<DataPlayer> playings = new ArrayList<>();
 
     private boolean end = false;
 

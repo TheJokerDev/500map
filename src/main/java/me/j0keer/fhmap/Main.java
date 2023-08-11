@@ -33,6 +33,7 @@ public final class Main extends JavaPlugin {
     private WorldEdit worldEdit;
 
     private TasksManager tasksManager;
+    private CameraManager cameraManager;
 
     private Game game;
 
@@ -66,6 +67,7 @@ public final class Main extends JavaPlugin {
         itemsManager = new ItemsManager(this);
         menusManager = new MenusManager(this);
         dataManager = new DataManager(this);
+        cameraManager = new CameraManager(this);
 
         Modules.loadValues(this);
         listener(new InteractListeners(this), new GeneralListeners(this), new CinematicListeners(this));
