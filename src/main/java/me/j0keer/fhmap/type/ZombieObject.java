@@ -9,8 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Zombie;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Random;
-
 @Getter
 public class ZombieObject {
     private final Main plugin;

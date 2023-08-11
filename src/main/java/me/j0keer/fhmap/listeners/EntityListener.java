@@ -14,10 +14,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityToggleSwimEvent;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EntityListener implements Listener {
     private final Main plugin;

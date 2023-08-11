@@ -1,13 +1,13 @@
 package me.j0keer.fhmap.type;
 
 import lombok.Getter;
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.enums.SenderTypes;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.enums.SenderTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -2,19 +2,18 @@ package me.j0keer.fhmap;
 
 import com.sk89q.worldedit.WorldEdit;
 import lombok.Getter;
+import me.j0keer.fhmap.config.ConfigUtil;
 import me.j0keer.fhmap.enums.Modules;
 import me.j0keer.fhmap.game.Game;
 import me.j0keer.fhmap.listeners.CinematicListeners;
 import me.j0keer.fhmap.listeners.GeneralListeners;
 import me.j0keer.fhmap.listeners.InteractListeners;
 import me.j0keer.fhmap.managers.*;
-import org.bukkit.Bukkit;
+import me.j0keer.fhmap.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import me.j0keer.fhmap.config.ConfigUtil;
-import me.j0keer.fhmap.utils.Utils;
 
 import java.util.Arrays;
 
@@ -33,7 +32,6 @@ public final class Main extends JavaPlugin {
     private WorldEdit worldEdit;
 
     private TasksManager tasksManager;
-    @Getter
     private CameraManager cameraManager;
 
     private Game game;
@@ -152,5 +150,9 @@ public final class Main extends JavaPlugin {
 
         ms = System.currentTimeMillis()-ms;
         console("{prefix}&fPlugin disabled successfully in &e"+ms+"&fms.");
+    }
+
+    public CameraManager getCameraManager(){
+        return cameraManager;
     }
 }

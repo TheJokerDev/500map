@@ -1,7 +1,6 @@
 package me.j0keer.fhmap.commands.sub.fhmap;
 
 import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.enums.Regions;
 import me.j0keer.fhmap.enums.SenderTypes;
 import me.j0keer.fhmap.managers.CameraManager;
 import me.j0keer.fhmap.type.SubCMD;

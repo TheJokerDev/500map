@@ -16,7 +16,6 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class RegionsSubCMD extends SubCMD {
     public RegionsSubCMD(Main plugin) {

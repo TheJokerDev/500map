@@ -5,6 +5,7 @@ import com.cryptomorin.xseries.XMaterial;
 import lombok.Getter;
 import lombok.Setter;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.j0keer.fhmap.managers.ItemsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -16,7 +17,6 @@ import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
-import me.j0keer.fhmap.managers.ItemsManager;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;

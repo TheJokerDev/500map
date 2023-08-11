@@ -1,6 +1,8 @@
 package me.j0keer.fhmap.managers;
 
 import lombok.Getter;
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.type.CustomMenu;
 import me.j0keer.fhmap.type.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,8 +12,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.type.CustomMenu;
 
 import java.io.File;
 import java.util.HashMap;

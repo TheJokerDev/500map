@@ -8,7 +8,6 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.listeners.EntityListener;
 import me.j0keer.fhmap.listeners.GameListeners;
-import me.j0keer.fhmap.managers.CameraManager;
 import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import me.j0keer.fhmap.utils.SPBlock;

@@ -5,6 +5,8 @@ import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XPotion;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.type.Button;
 import me.j0keer.fhmap.type.DataPlayer;
 import me.j0keer.fhmap.type.Menu;
 import me.j0keer.fhmap.type.SimpleItem;
@@ -22,8 +24,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.type.Button;
 
 import java.util.*;
 

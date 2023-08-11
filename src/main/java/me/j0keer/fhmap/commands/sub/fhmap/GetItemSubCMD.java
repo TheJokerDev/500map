@@ -1,13 +1,13 @@
 package me.j0keer.fhmap.commands.sub.fhmap;
 
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.enums.SenderTypes;
 import me.j0keer.fhmap.type.DataPlayer;
 import me.j0keer.fhmap.type.SubCMD;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.StringUtil;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.enums.SenderTypes;
 
 import java.util.ArrayList;
 import java.util.List;

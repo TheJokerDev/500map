@@ -1,9 +1,9 @@
 package me.j0keer.fhmap.type;
 
 import lombok.Getter;
-import org.bukkit.command.CommandSender;
 import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.SenderTypes;
+import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.List;

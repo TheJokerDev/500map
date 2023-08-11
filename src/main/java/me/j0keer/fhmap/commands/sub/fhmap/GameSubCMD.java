@@ -14,7 +14,10 @@ import me.j0keer.fhmap.type.ItemObject;
 import me.j0keer.fhmap.type.Pipe;
 import me.j0keer.fhmap.type.SubCMD;
 import me.j0keer.fhmap.utils.LocationUtil;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -25,8 +28,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.StringUtil;
 
-import javax.swing.table.TableRowSorter;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -310,15 +311,12 @@ public class GameSubCMD extends SubCMD {
                         return true;
                     }
 
-                    try{
                         Player player = Bukkit.getPlayerExact(args[2]);
                         long time = Long.parseLong(args[3]);
                         float size = Float.parseFloat(args[4]);
                         int id = Integer.parseInt(args[5]);
                         plugin.getCameraManager().sendShaderEffect(player, time, size, id);
-                    }catch(Exception ex){
-                        ex.printStackTrace();
-                    }
+
                 }
                 if (var2.equals("stress")){
                     if (args.length == 2){

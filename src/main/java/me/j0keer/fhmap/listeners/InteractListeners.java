@@ -1,5 +1,7 @@
 package me.j0keer.fhmap.listeners;
 
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.type.Button;
 import me.j0keer.fhmap.type.DataPlayer;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -7,8 +9,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.type.Button;
 
 public class InteractListeners implements Listener {
     private Main plugin;

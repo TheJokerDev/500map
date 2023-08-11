@@ -1,12 +1,12 @@
 package me.j0keer.fhmap.type;
 
+import me.j0keer.fhmap.Main;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-import me.j0keer.fhmap.Main;
 
 public class CustomMenu extends Menu {
 

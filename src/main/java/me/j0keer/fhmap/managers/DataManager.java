@@ -1,6 +1,7 @@
 package me.j0keer.fhmap.managers;
 
 import lombok.Getter;
+import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.type.DataPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -8,7 +9,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import me.j0keer.fhmap.Main;
 
 import java.util.HashMap;
 import java.util.UUID;

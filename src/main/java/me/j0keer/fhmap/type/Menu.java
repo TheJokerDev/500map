@@ -1,5 +1,7 @@
 package me.j0keer.fhmap.type;
 
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.managers.ItemsManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -8,8 +10,6 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.managers.ItemsManager;
 
 import java.util.ArrayList;
 import java.util.List;

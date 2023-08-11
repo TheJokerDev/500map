@@ -1,6 +1,8 @@
 package me.j0keer.fhmap.managers;
 
 import lombok.Getter;
+import me.j0keer.fhmap.Main;
+import me.j0keer.fhmap.commands.FHMapCMD;
 import me.j0keer.fhmap.commands.ObjectiveCMD;
 import me.j0keer.fhmap.commands.TimerCMD;
 import me.j0keer.fhmap.commands.VanishCommand;
@@ -10,9 +12,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.commands.FHMapCMD;
-import org.intellij.lang.annotations.Language;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

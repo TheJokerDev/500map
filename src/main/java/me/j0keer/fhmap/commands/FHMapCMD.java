@@ -1,10 +1,10 @@
 package me.j0keer.fhmap.commands;
 
+import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.commands.sub.fhmap.*;
 import me.j0keer.fhmap.type.CMD;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import me.j0keer.fhmap.Main;
 
 import java.util.ArrayList;
 import java.util.Arrays;

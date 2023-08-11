@@ -1,10 +1,10 @@
 package me.j0keer.fhmap.commands.sub.fhmap;
 
+import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.Regions;
+import me.j0keer.fhmap.enums.SenderTypes;
 import me.j0keer.fhmap.type.SubCMD;
 import org.bukkit.command.CommandSender;
-import me.j0keer.fhmap.Main;
-import me.j0keer.fhmap.enums.SenderTypes;
 
 import java.util.ArrayList;
 import java.util.Arrays;
