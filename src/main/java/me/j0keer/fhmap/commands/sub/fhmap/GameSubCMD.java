@@ -9,15 +9,13 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.regions.Region;
 import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.SenderTypes;
-import me.j0keer.fhmap.type.DataPlayer;
-import me.j0keer.fhmap.type.ItemObject;
-import me.j0keer.fhmap.type.Pipe;
-import me.j0keer.fhmap.type.SubCMD;
+import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.EntityType;
@@ -305,6 +303,22 @@ public class GameSubCMD extends SubCMD {
                     return true;
                 }
                 String var2 = args[1].toLowerCase();
+                if(var2.equals("attack")){
+                    BlockFace face = !args[2].equalsIgnoreCase("left") ? BlockFace.EAST : BlockFace.WEST;
+                    plugin.getGame().attact1(face, p.getLocation().clone());
+                }
+                if(var2.equals("attack2")){
+                    Location loc = p.getLocation().clone();
+                    loc.setYaw(90);
+                    plugin.getGame().attact2(loc);
+                }
+                if(var2.equals("item")){
+                    ItemStack item = p.getInventory().getItemInMainHand();
+                    ItemMeta meta = item.getItemMeta();
+                    assert meta != null;
+                    meta.setCustomModelData(Integer.parseInt(args[2]));
+                    item.setItemMeta(meta);
+                }
                 if(var2.equals("shader")){//mapa test shader <player> long_time float_size int_id
                     if(args.length != 6){
                         sendMSG(sender, "{prefix}&c <long_time> <float_size> <ind_id>.");
@@ -419,6 +433,45 @@ public class GameSubCMD extends SubCMD {
                 getPlugin().getGame().reset();
                 sendMSG(sender, "{prefix}&aHas reiniciado el juego.");
             }
+            case "music" ->{
+                if(args.length != 3){
+                    sendMSG(sender, "{prefix}&aUsa music play <name> o music stop <name>.");
+                    return true;
+                }
+
+                String type = args[1];
+                boolean play = type.equalsIgnoreCase("play");
+
+                String sound = args[2].toLowerCase();
+                GameMusic music = null;
+                switch(sound){
+                    case "overworld":{
+                        music = plugin.getGame().getOverworld_music();
+                        break;
+                    }
+                    case "nether":{
+                        music = plugin.getGame().getNether_music();
+                        break;
+                    }
+                    case "boss":{
+                        music = plugin.getGame().getBoss_music();
+                        break;
+                    }
+                }
+
+                if(music == null){
+                    sendMSG(sender, "{prefix}&cEsta musica no existe!");
+                    return true;
+                }else{
+                    if(play){
+                        music.play();
+                        sendMSG(sender, "{prefix}&cSe comenzo a reproducir la musica");
+                    }else {
+                        music.stop();
+                        sendMSG(sender, "{prefix}&cSe detuvo la musica");
+                    }
+                }
+            }
         }
         return true;
     }
@@ -458,7 +511,7 @@ public class GameSubCMD extends SubCMD {
     @Override
     public List<String> onTab(CommandSender sender, String alias, String[] args) {
         if (args.length == 1){
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "reset"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "reset"), new ArrayList<>());
         }
         if (args.length == 2){
             if (args[0].equalsIgnoreCase("togglesize")) {
@@ -473,10 +526,20 @@ public class GameSubCMD extends SubCMD {
             if (args[0].equalsIgnoreCase("test")) {
                 return StringUtil.copyPartialMatches(args[1], Arrays.asList("stress", "villain"), new ArrayList<>());
             }
+            if(args[0].equalsIgnoreCase("music")){
+                return StringUtil.copyPartialMatches(args[1], Arrays.asList("play", "stop"), new ArrayList<>());
+            }
         }
         if (args.length == 3){
             String var1 = args[0];
             String var2 = args[1].toLowerCase();
+            if(var1.equalsIgnoreCase("music") && (var2.equalsIgnoreCase("play") || var2.equalsIgnoreCase("stop"))){
+                List<String> sounds = new ArrayList<>();
+                for(GameMusic.Music music : GameMusic.Music.values()){
+                    sounds.add(music.name().toLowerCase());
+                }
+                return StringUtil.copyPartialMatches(args[2], sounds, new ArrayList<>());
+            }
             if (var1.equals("setup") && (var2.equals("removepipe") || var2.equals("editpipe"))){
                 List<String> pipe = new ArrayList<>(getPlugin().getGame().getPipeHashMap().keySet());
                 return StringUtil.copyPartialMatches(args[2], pipe, new ArrayList<>());

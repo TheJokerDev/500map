@@ -379,12 +379,6 @@ public class DataPlayer {
     public void death(){
         if (!isInGame()) return;
 
-        if(!isSmall()){
-            setSmall(true);
-            playSound(sound.LEVEL_DOWN);
-            return;
-        }
-
         plugin.getGame().getSpawners().values().forEach(ZombieObject::toggleIA);
         dead = true;
         int id = getPlayerAnimationHandler().getDirection() == Direction.RIGHT ? 21 : 22;

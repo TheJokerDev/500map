@@ -3,6 +3,7 @@ package me.j0keer.fhmap.listeners;
 import me.j0keer.fhmap.Main;
 import me.j0keer.fhmap.enums.Modules;
 import me.j0keer.fhmap.type.DataPlayer;
+import me.j0keer.fhmap.type.GameMusic;
 import org.bukkit.GameMode;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
@@ -134,6 +136,8 @@ public class GeneralListeners implements Listener {
             if(!dp.isSmall()){
                 dp.playSound(DataPlayer.sound.LEVEL_DOWN);
                 dp.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / 2);
+                dp.setSmall(true);
+                return;
             }
 
             dp.death();

@@ -11,9 +11,7 @@ import me.j0keer.fhmap.listeners.GameListeners;
 import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import me.j0keer.fhmap.utils.SPBlock;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Directional;
@@ -24,7 +22,9 @@ import org.bukkit.entity.Zombie;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +45,10 @@ public class Game implements Listener {
 
     public List<Material> drops = new ArrayList<>();
     public List<DataPlayer> playings = new ArrayList<>();
+
+    private GameMusic overworld_music;
+    private GameMusic nether_music;
+    private GameMusic boss_music;
 
     private boolean end = false;
 
@@ -127,6 +131,9 @@ public class Game implements Listener {
         loadSpawners();
         loadPipes();
         loadDeathRegions();
+        overworld_music = new GameMusic(plugin, GameMusic.Music.OVERWORLD, 173);
+        nether_music = new GameMusic(plugin, GameMusic.Music.NETHER, 100);
+        boss_music = new GameMusic(plugin, GameMusic.Music.BOSS, 160);
     }
 
     private boolean villainSpawned = false;
@@ -497,5 +504,105 @@ public class Game implements Listener {
                 }
             }
         });
+    }
+
+    public void attact2(Location location){
+        location.getWorld().playSound(location, "500map:boss_meteor", 0.6f, -1f);
+        double amount = 6;
+        for(int i = 0 ; i < 4; i++){
+            Location loc = location.clone().add((i * 2.1) - (amount / 2), new Random().nextDouble(6, 8), 1);
+            ArmorStand armorStand = location.getWorld().spawn(loc, ArmorStand.class, stand ->{
+                ItemStack item = new ItemStack(Material.ENDER_PEARL);
+                stand.getEquipment().setItem(EquipmentSlot.HEAD, item, true);
+                stand.setGravity(false);
+                stand.setInvisible(true);
+            });
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if(armorStand.getLocation().add(0, 1.6, -1).getBlock().getType().isSolid()){
+
+                        cancel();
+                        armorStand.remove();
+                        armorStand.getLocation().getWorld().playSound(armorStand.getLocation(), Sound.ENTITY_DRAGON_FIREBALL_EXPLODE, 0.5f, 2f);
+                        for(DataPlayer player : playings){
+                            double distance = player.getPlayer().getLocation().distance(armorStand.getLocation().add(0, 0, -1));
+                            if(distance <= 1.9)
+                                player.getPlayer().damage(7);
+                        }
+                        return;
+                    }
+                    armorStand.getLocation().getWorld().spawnParticle(Particle.PORTAL,armorStand.getLocation().clone().add(0, 1.8, 0), 1);
+                    armorStand.teleport(armorStand.getLocation().add(0, -0.25, 0));
+                }
+            }.runTaskTimer(plugin, 0, 1);
+        }
+    }
+
+    public void attact1(BlockFace face, Location location){
+        int rotation = face.equals(BlockFace.EAST) ? 90 : -90;
+        double direction_amount = face.equals(BlockFace.EAST) ? -0.3 : 0.3;
+        location.setYaw(rotation);
+        location.setPitch(90);
+        location.add(0, -1.8, 1);
+        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class, stand ->{
+           ItemStack item = new ItemStack(Material.STICK);
+           ItemMeta meta = item.getItemMeta();
+            assert meta != null;
+            meta.setCustomModelData(1);
+           item.setItemMeta(meta);
+           stand.getEquipment().setItem(EquipmentSlot.HEAD, item, true);
+           stand.setHeadPose(stand.getHeadPose().setX(1.6));
+           stand.setGravity(false);
+           stand.setInvisible(true);
+        });
+        armorStand.getWorld().playSound(armorStand.getLocation(), "500map:boss_sword_up", 0.4f, 1f);
+        new BukkitRunnable() {
+            int max_ticks = 16;
+            int max_up_ticks = 10;
+            int counts = 0;
+            int up_counts = 0;
+            boolean played = false;
+            private float volume = 0.6f;
+            @Override
+            public void run() {
+                if(counts >= max_ticks){
+                    if(counts <= max_ticks * 3){
+                        if(armorStand != null){
+                            int a = counts % 5;
+                            if(a == 4){
+                                armorStand.getWorld().playSound(armorStand.getLocation(), "500map:boss_sword_rotate", volume, 0.4f);
+                                volume -= 0.1;
+                            }
+                            armorStand.teleport(armorStand.getLocation().add(direction_amount / 1.5, 0.4, 0));
+                        }
+
+                    }else{
+                        cancel();
+                        armorStand.remove();
+                        return;
+                    }
+
+                }
+                if(up_counts < max_up_ticks){
+                    armorStand.teleport(armorStand.getLocation().add(0, 0.05, 0));
+                    up_counts++;
+                    return;
+                }else{
+                    if(!played){
+                        armorStand.getWorld().playSound(armorStand.getLocation(), "500map:boss_sword_attack", 1f, 1f);
+                        played = true;
+                    }
+
+                }
+                    if(direction_amount > 0)
+                        armorStand.setHeadPose(armorStand.getHeadPose().add(direction_amount, 0, 0));
+
+                if(direction_amount < 0)
+                    armorStand.setHeadPose(armorStand.getHeadPose().subtract(direction_amount, 0, 0));
+                counts++;
+            }
+        }.runTaskTimer(plugin, 0, 1);
     }
 }

@@ -74,6 +74,7 @@ public class Pipe implements Listener {
     public void teleport(DataPlayer dp){
         list.add(dp.getName());
         dp.teleport(tpLoc, direction, (bool) -> list.remove(dp.getName()));
+        plugin.getCameraManager().sendShaderEffect(dp.getPlayer(), 50, 0.8f, 1);
     }
 
     private List<String> list = new ArrayList<>();
