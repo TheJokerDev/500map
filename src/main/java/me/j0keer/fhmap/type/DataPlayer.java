@@ -42,6 +42,8 @@ public class DataPlayer {
     private boolean vanished = false;
     private boolean inGame = false;
 
+    private boolean isVillain = false;
+
     private BossBar gameUpBar;
     private BossBar gameBar;
 
@@ -213,6 +215,10 @@ public class DataPlayer {
                 }
             }.runTaskLater(plugin, 20L * 30);
         }
+    }
+
+    public void setVillain(boolean villain){
+        this.isVillain = villain;
     }
 
     public void resetStats(){

@@ -420,7 +420,7 @@ public class GameSubCMD extends SubCMD {
                         sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
                         return true;
                     }
-                    if (dp.isInGame()){
+                    if (dp.isVillain()){
                         sendMSG(sender, "{prefix}&c¡Ya está en una partida!");
                         return true;
                     }
@@ -432,10 +432,11 @@ public class GameSubCMD extends SubCMD {
                     sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
                     return true;
                 }
-                if (dp.isInGame()){
+                if (dp.isVillain()){
                     sendMSG(sender, "{prefix}&c¡Ya estás en una partida!");
                     return true;
                 }
+                plugin.getGame().joinVillain(p);
                 //dp.setInGame(true);
                 //Join as villain
                 sendMSG(sender, "{prefix}&aHas entrado al juego.");
@@ -481,18 +482,19 @@ public class GameSubCMD extends SubCMD {
                         return true;
                     }
                     DataPlayer dp = getPlugin().getDataManager().getDataPlayer(t);
-                    if (!dp.isInGame()){
-                        sendMSG(sender, "{prefix}&c¡No estás en una partida!");
+                    if (!dp.isVillain()){
+                        sendMSG(sender, "{prefix}&c¡No eres un villano!");
                         return true;
                     }
                     dp.setInGame(false);
                     sendMSG(sender, "{prefix}&aHas salido del juego.");
                 }
                 DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
-                if (!dp.isInGame()){
+                if (!dp.isVillain()){
                     sendMSG(sender, "{prefix}&c¡No estás en una partida!");
                     return true;
                 }
+                plugin.getGame().leaveVillain(p);
                 //dp.setInGame(false);
                 //TO-DO: Leave as villain
                 sendMSG(sender, "{prefix}&aHas salido del juego.");

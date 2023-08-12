@@ -8,6 +8,7 @@ import me.j0keer.fhmap.enums.Direction;
 import me.j0keer.fhmap.enums.GameSound;
 import me.j0keer.fhmap.listeners.EntityListener;
 import me.j0keer.fhmap.listeners.GameListeners;
+import me.j0keer.fhmap.managers.CameraManager;
 import me.j0keer.fhmap.type.*;
 import me.j0keer.fhmap.utils.LocationUtil;
 import me.j0keer.fhmap.utils.SPBlock;
@@ -89,6 +90,45 @@ public class Game implements Listener {
                 }
             }
         }.runTaskTimer(plugin, 10L, 0L);
+    }
+
+    List<Player> villainsPlayer = new ArrayList<>();
+    public void joinVillain(Player player){
+        DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
+        villainsPlayer.add(player);
+        dataPlayer.setVillain(true);
+        Location location = getVillainGameSpawnLocation().clone();
+        location.setPitch(getGameLocation().getPitch());
+        location.setYaw(getGameLocation().getYaw());
+        dataPlayer.setVanished(false);
+        player.setGameMode(GameMode.ADVENTURE);
+        player.teleport(getVillainGameSpawnLocation());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin.getCameraManager().changeCamera(player, CameraManager.Perspective.THIRD_PERSON_BACK);
+                plugin.getCameraManager().lockMovementAxis(player, 'z');
+                plugin.getCameraManager().lockCamera(player);
+            }
+        }.runTaskLater(plugin, 2);
+    }
+
+    public void leaveVillain(Player player){
+        DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
+        villainsPlayer.remove(player);
+        dataPlayer.setVillain(true);
+        dataPlayer.setVanished(true);
+        player.teleport(plugin.getGame().getSpawn());
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                plugin.getCameraManager().unlockMovementAxis(player, 'z');
+                plugin.getCameraManager().unlockCamera(player);
+                plugin.getCameraManager().changeCamera(player, CameraManager.Perspective.FIRST_PERSON);
+            }
+        }.runTaskLater(plugin, 2);
     }
 
     public void spawnVillain(){
@@ -611,5 +651,8 @@ public class Game implements Listener {
                 counts++;
             }
         }.runTaskTimer(plugin, 0, 1);
+    }
+
+    public void addVillainItems(Player player){
     }
 }
