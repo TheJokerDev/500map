@@ -117,7 +117,7 @@ public class Game implements Listener {
     public void leaveVillain(Player player){
         DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
         villainsPlayer.remove(player);
-        dataPlayer.setVillain(true);
+        dataPlayer.setVillain(false);
         dataPlayer.setVanished(true);
         player.teleport(plugin.getGame().getSpawn());
 

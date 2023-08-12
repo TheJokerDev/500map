@@ -424,7 +424,7 @@ public class GameSubCMD extends SubCMD {
                         sendMSG(sender, "{prefix}&c¡Ya está en una partida!");
                         return true;
                     }
-                    dp.setInGame(true);
+                    plugin.getGame().joinVillain(p);
                     return true;
                 }
                 DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
@@ -486,7 +486,7 @@ public class GameSubCMD extends SubCMD {
                         sendMSG(sender, "{prefix}&c¡No eres un villano!");
                         return true;
                     }
-                    dp.setInGame(false);
+                    plugin.getGame().leaveVillain(p);
                     sendMSG(sender, "{prefix}&aHas salido del juego.");
                 }
                 DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
@@ -605,7 +605,7 @@ public class GameSubCMD extends SubCMD {
     @Override
     public List<String> onTab(CommandSender sender, String alias, String[] args) {
         if (args.length == 1){
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "villainjoin", "villainjoin", "reset"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "villainjoin", "villainleave", "reset"), new ArrayList<>());
         }
         if (args.length == 2){
             if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("villainjoin")){
