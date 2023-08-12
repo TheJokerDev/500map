@@ -1,5 +1,6 @@
 package me.j0keer.fhmap.game;
 
+import com.cryptomorin.xseries.XMaterial;
 import com.cryptomorin.xseries.XSound;
 import lombok.Getter;
 import lombok.Setter;
@@ -103,7 +104,7 @@ public class Game implements Listener {
         dataPlayer.setVanished(false);
         player.setGameMode(GameMode.ADVENTURE);
         player.teleport(getVillainGameSpawnLocation());
-
+        addVillainItems(player);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -654,5 +655,11 @@ public class Game implements Listener {
     }
 
     public void addVillainItems(Player player){
+        ItemStack attack1 = new SimpleItem(XMaterial.STONE_BUTTON).setDisplayName("NORMAL").build(player);
+        ItemStack attack2 = new SimpleItem(XMaterial.ACACIA_BUTTON).setDisplayName("ESPADA").build(player);
+        ItemStack attack3 = new SimpleItem(XMaterial.BIRCH_BUTTON).setDisplayName("METEORO").build(player);
+        player.getInventory().addItem(attack1);
+        player.getInventory().addItem(attack2);
+        player.getInventory().addItem(attack3);
     }
 }
