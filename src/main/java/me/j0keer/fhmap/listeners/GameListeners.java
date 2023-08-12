@@ -12,6 +12,7 @@ import me.j0keer.fhmap.type.ZombieObject;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +26,8 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -245,5 +248,46 @@ public class GameListeners implements Listener {
 
     private static double getZSpeed(@NotNull PlayerMoveEvent event) {
         return event.getTo().getZ() - event.getFrom().getZ();
+    }
+
+    @EventHandler
+    public void interact(PlayerInteractEvent event){
+        ItemStack item = event.getItem();
+        Player player = event.getPlayer();
+
+        DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
+
+        if(item == null || item.getType().equals(Material.AIR))
+            return;
+
+        ItemMeta meta  = item.getItemMeta();
+        if(meta == null)
+            return;
+
+        if(!item.getType().name().contains("_BUTTON"))
+            return;
+
+        Direction direction = dataPlayer.getPlayerAnimationHandler().getDirection();
+
+        BlockFace face = direction.equals(Direction.RIGHT) ? BlockFace.EAST : BlockFace.WEST;
+
+        if(item.getType().equals(Material.STONE_BUTTON)){
+            for(DataPlayer dp : plugin.getGame().getPlayings()){
+                double distance = dp.getPlayer().getLocation().distance(player.getLocation());
+
+                if(distance <= 1){
+                    dp.getPlayer().damage(2);
+                }
+            }
+        }
+
+        if(item.getType().equals(Material.ACACIA_BUTTON)){
+            plugin.getGame().attact1(face, player.getLocation());
+        }
+
+        if(item.getType().equals(Material.BIRCH_BUTTON)){
+            plugin.getGame().attact2(player.getLocation());
+        }
+        event.setCancelled(true);
     }
 }
