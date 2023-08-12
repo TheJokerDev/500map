@@ -243,6 +243,10 @@ public class DataPlayer {
             getPlayer().setFoodLevel(20);
             foodLevel = getPlayer().getFoodLevel();
 
+            SimpleItem item = new SimpleItem(XMaterial.VILLAGER_SPAWN_EGG);
+            item.setDisplayName("§a§lTienda");
+            player.getInventory().setItem(8, item.build(player));
+
             plugin.getGame().playings.add(this);
             gameTask = new BukkitRunnable() {
                 @Override
@@ -460,6 +464,9 @@ public class DataPlayer {
                     teleportToLastLoc();
                     resetStats();
                     setSmall(true);
+                    SimpleItem item = new SimpleItem(XMaterial.VILLAGER_SPAWN_EGG);
+                    item.setDisplayName("§a§lTienda");
+                    player.getInventory().setItem(8, item.build(player));
                     return;
                 }
                 if (up && difference <= 0.01){
