@@ -603,9 +603,17 @@ public class GameSubCMD extends SubCMD {
     @Override
     public List<String> onTab(CommandSender sender, String alias, String[] args) {
         if (args.length == 1){
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "reset"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "villainjoin", "villainjoin", "reset"), new ArrayList<>());
         }
         if (args.length == 2){
+            if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("villainjoin")){
+                List<String> list = new ArrayList<>(plugin.getDataManager().getPlayers().values().stream().filter(dp -> !dp.isInGame()).map(DataPlayer::getName).toList());
+                return StringUtil.copyPartialMatches(args[1], list, new ArrayList<>());
+            }
+            if (args[0].equalsIgnoreCase("leave") || args[0].equalsIgnoreCase("villainleave")){
+                List<String> list = new ArrayList<>(plugin.getDataManager().getPlayers().values().stream().filter(dp -> dp.isInGame()).map(DataPlayer::getName).toList());
+                return StringUtil.copyPartialMatches(args[1], list, new ArrayList<>());
+            }
             if (args[0].equalsIgnoreCase("togglesize")) {
                 return null;
             }
