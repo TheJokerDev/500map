@@ -9,6 +9,7 @@ import me.j0keer.fhmap.listeners.CinematicListeners;
 import me.j0keer.fhmap.listeners.GeneralListeners;
 import me.j0keer.fhmap.listeners.InteractListeners;
 import me.j0keer.fhmap.managers.*;
+import me.j0keer.fhmap.menus.ShopMenu;
 import me.j0keer.fhmap.utils.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -72,6 +73,7 @@ public final class Main extends JavaPlugin {
         listener(new InteractListeners(this), new GeneralListeners(this), new CinematicListeners(this));
 
         game = new Game(this);
+        new ShopMenu(this);
 
         console(" &e» &aManagers correctly loaded.", "");
 
