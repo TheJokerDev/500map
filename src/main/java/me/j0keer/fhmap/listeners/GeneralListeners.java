@@ -135,8 +135,13 @@ public class GeneralListeners implements Listener {
             event.setDamage(0.0d);
             if(!dp.isSmall()){
                 dp.playSound(DataPlayer.sound.LEVEL_DOWN);
-                dp.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue() / 2);
                 dp.setSmall(true);
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.setHealth(20);
+                    }
+                }.runTaskLater(plugin, 2);
                 return;
             }
 

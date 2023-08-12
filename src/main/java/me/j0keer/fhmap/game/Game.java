@@ -593,6 +593,11 @@ public class Game implements Listener {
                     if(!played){
                         armorStand.getWorld().playSound(armorStand.getLocation(), "500map:boss_sword_attack", 1f, 1f);
                         played = true;
+                        for(DataPlayer player : playings){
+                            double distance = player.getPlayer().getLocation().distance(armorStand.getLocation().add(0, 0, -1));
+                            if(distance <= 2.5)
+                                player.getPlayer().damage(15);
+                        }
                     }
 
                 }

@@ -68,7 +68,6 @@ public class DataPlayer {
             getPlayer().setSwimming(false);
         }
         sizeAnimation(small);
-        getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, small ? 2 : 3, false, false));
         plugin.getCameraManager().changeSize(getPlayer(), small);
     }
 
@@ -225,6 +224,7 @@ public class DataPlayer {
         this.inGame = inGame;
         if (inGame){
             setSmall(true);
+            getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 999999, 3, false, false));
             getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 999999, 1, false, false));
             contents = getPlayer().getInventory().getContents();
             getPlayer().getInventory().clear();
