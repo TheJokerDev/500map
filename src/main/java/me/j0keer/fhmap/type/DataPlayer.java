@@ -467,6 +467,7 @@ public class DataPlayer {
     public void teleportToLastLoc(){
         Location loc = checkpoint != null ? checkpoint : plugin.getGame().getGameLocation();
         getPlayer().teleport(loc);
+        plugin.getCameraManager().sendShaderEffect(getPlayer(), 25, 0.8f, 1);
     }
 
     public void sendFade(int in, int stay, int out, ChatColor color, @Nullable String text){

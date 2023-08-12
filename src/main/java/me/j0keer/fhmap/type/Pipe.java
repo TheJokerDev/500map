@@ -92,6 +92,7 @@ public class Pipe implements Listener {
         if (reg.isIn(p)){
             if (!p.isSneaking()) return;
             teleport(dp);
+            dp.setCheckpoint(tpLoc);
         }
     }
 

@@ -407,7 +407,59 @@ public class GameSubCMD extends SubCMD {
                     Bukkit.getScheduler().runTaskLater(getPlugin(), () -> object.remove(), 200);
                 }
             }
+            case "villainjoin" -> {
+                if (args.length == 2){
+                    String var2 = args[1].toLowerCase();
+                    Player t = getPlugin().getServer().getPlayer(var2);
+                    if (t == null){
+                        sendMSG(sender, "{prefix}&cNo se ha encontrado al jugador especificado.");
+                        return true;
+                    }
+                    DataPlayer dp = getPlugin().getDataManager().getDataPlayer(t);
+                    if (getPlugin().getGame().getGameLocation() == null){
+                        sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
+                        return true;
+                    }
+                    if (dp.isInGame()){
+                        sendMSG(sender, "{prefix}&c¡Ya está en una partida!");
+                        return true;
+                    }
+                    dp.setInGame(true);
+                    return true;
+                }
+                DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
+                if (getPlugin().getGame().getGameLocation() == null){
+                    sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
+                    return true;
+                }
+                if (dp.isInGame()){
+                    sendMSG(sender, "{prefix}&c¡Ya estás en una partida!");
+                    return true;
+                }
+                //dp.setInGame(true);
+                //Join as villain
+                sendMSG(sender, "{prefix}&aHas entrado al juego.");
+            }
             case "join" -> {
+                if (args.length == 2){
+                    String var2 = args[1].toLowerCase();
+                    Player t = getPlugin().getServer().getPlayer(var2);
+                    if (t == null){
+                        sendMSG(sender, "{prefix}&cNo se ha encontrado al jugador especificado.");
+                        return true;
+                    }
+                    DataPlayer dp = getPlugin().getDataManager().getDataPlayer(t);
+                    if (getPlugin().getGame().getGameLocation() == null){
+                        sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
+                        return true;
+                    }
+                    if (dp.isInGame()){
+                        sendMSG(sender, "{prefix}&c¡Ya está en una partida!");
+                        return true;
+                    }
+                    dp.setInGame(true);
+                    return true;
+                }
                 DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
                 if (getPlugin().getGame().getGameLocation() == null){
                     sendMSG(sender, "{prefix}&c¡No has establecido la ubicación del juego!");
@@ -420,7 +472,47 @@ public class GameSubCMD extends SubCMD {
                 dp.setInGame(true);
                 sendMSG(sender, "{prefix}&aHas entrado al juego.");
             }
+            case "villainleave" -> {
+                if (args.length == 2){
+                    String var2 = args[1].toLowerCase();
+                    Player t = getPlugin().getServer().getPlayer(var2);
+                    if (t == null){
+                        sendMSG(sender, "{prefix}&cNo se ha encontrado al jugador especificado.");
+                        return true;
+                    }
+                    DataPlayer dp = getPlugin().getDataManager().getDataPlayer(t);
+                    if (!dp.isInGame()){
+                        sendMSG(sender, "{prefix}&c¡No estás en una partida!");
+                        return true;
+                    }
+                    dp.setInGame(false);
+                    sendMSG(sender, "{prefix}&aHas salido del juego.");
+                }
+                DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
+                if (!dp.isInGame()){
+                    sendMSG(sender, "{prefix}&c¡No estás en una partida!");
+                    return true;
+                }
+                //dp.setInGame(false);
+                //TO-DO: Leave as villain
+                sendMSG(sender, "{prefix}&aHas salido del juego.");
+            }
             case "leave" -> {
+                if (args.length == 2){
+                    String var2 = args[1].toLowerCase();
+                    Player t = getPlugin().getServer().getPlayer(var2);
+                    if (t == null){
+                        sendMSG(sender, "{prefix}&cNo se ha encontrado al jugador especificado.");
+                        return true;
+                    }
+                    DataPlayer dp = getPlugin().getDataManager().getDataPlayer(t);
+                    if (!dp.isInGame()){
+                        sendMSG(sender, "{prefix}&c¡No estás en una partida!");
+                        return true;
+                    }
+                    dp.setInGame(false);
+                    sendMSG(sender, "{prefix}&aHas salido del juego.");
+                }
                 DataPlayer dp = getPlugin().getDataManager().getDataPlayer(p);
                 if (!dp.isInGame()){
                     sendMSG(sender, "{prefix}&c¡No estás en una partida!");

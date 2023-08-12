@@ -390,6 +390,7 @@ public class Game implements Listener {
             if (cooldownLocs.contains(getBlockOnTop.getLocation())) return;
 
             if (type == Material.EMERALD_BLOCK || type == Material.DARK_PRISMARINE) {
+                if (dataPlayer.isSmall() || p.isOnGround()) return;
                 cooldownLocs.add(getBlockOnTop.getLocation());
                 new BukkitRunnable() {
                     @Override
@@ -410,6 +411,7 @@ public class Game implements Listener {
 
                 GameSound.BRICKS_BREAK.play(p);
             } else if (type == Material.CRAFTING_TABLE || type == Material.BRICKS || type == Material.COPPER_BLOCK || type == Material.PRISMARINE) {
+                if (p.isOnGround()) return;
                 cooldownLocs.add(getBlockOnTop.getLocation());
                 new BukkitRunnable() {
                     @Override
