@@ -10,6 +10,7 @@ import me.j0keer.fhmap.handler.PlayerAnimationHandler;
 import me.j0keer.fhmap.type.DataPlayer;
 import me.j0keer.fhmap.type.ZombieObject;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -286,7 +287,9 @@ public class GameListeners implements Listener {
         }
 
         if(item.getType().equals(Material.BIRCH_BUTTON)){
-            plugin.getGame().attact2(player.getLocation());
+            Location loc = player.getLocation().clone();
+            loc.setYaw(90);
+            plugin.getGame().attact2(loc);
         }
         event.setCancelled(true);
     }

@@ -27,6 +27,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
@@ -95,15 +97,17 @@ public class Game implements Listener {
 
     List<Player> villainsPlayer = new ArrayList<>();
     public void joinVillain(Player player){
+        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 99999, 1));
         DataPlayer dataPlayer = plugin.getDataManager().getDataPlayer(player);
         villainsPlayer.add(player);
         dataPlayer.setVillain(true);
         Location location = getVillainGameSpawnLocation().clone();
         location.setPitch(getGameLocation().getPitch());
-        location.setYaw(getGameLocation().getYaw());
+        location.setYaw(180);
+        location.setZ(getGameLocation().getZ()+0.3);
         dataPlayer.setVanished(false);
         player.setGameMode(GameMode.ADVENTURE);
-        player.teleport(getVillainGameSpawnLocation());
+        player.teleport(location);
         addVillainItems(player);
         new BukkitRunnable() {
             @Override
@@ -588,7 +592,7 @@ public class Game implements Listener {
         double direction_amount = face.equals(BlockFace.EAST) ? -0.3 : 0.3;
         location.setYaw(rotation);
         location.setPitch(90);
-        location.add(0, -1.8, 1);
+        location.add(0, -1.5, 1);
         ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class, stand ->{
            ItemStack item = new ItemStack(Material.STICK);
            ItemMeta meta = item.getItemMeta();
