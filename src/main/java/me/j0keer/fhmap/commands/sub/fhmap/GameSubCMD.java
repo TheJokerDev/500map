@@ -17,9 +17,7 @@ import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -206,6 +204,26 @@ public class GameSubCMD extends SubCMD {
                     }
                     return true;
                 }
+            }
+            case "silentvillagers" -> {
+                if (args.length < 2) {
+                    sendMSG(sender, "{prefix}&cNecesitas espeficicar un booleano.");
+                    return true;
+                }
+                boolean bool;
+                try {
+                    bool = Boolean.parseBoolean(args[1]);
+                } catch (IllegalArgumentException e) {
+                    sendMSG(sender, "{prefix}&cEl argumento especificado no es un booleano.");
+                    return true;
+                }
+                for (Entity entity : p.getWorld().getEntities()) {
+                    if (entity instanceof Villager villager) {
+                        villager.setSilent(bool);
+                    }
+                }
+                sendMSG(sender, "{prefix}&aHas establecido el booleano de los aldeanos a " + bool + ".");
+                return true;
             }
             case "spawn" -> {
                 if (getPlugin().getGame().getSpawn() == null){
@@ -605,7 +623,7 @@ public class GameSubCMD extends SubCMD {
     @Override
     public List<String> onTab(CommandSender sender, String alias, String[] args) {
         if (args.length == 1){
-            return StringUtil.copyPartialMatches(args[0], Arrays.asList("music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "villainjoin", "villainleave", "reset"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[0], Arrays.asList("silentvillagers", "music", "togglesize", "initend", "setup", "spawn", "summon", "test", "join", "leave", "villainjoin", "villainleave", "reset"), new ArrayList<>());
         }
         if (args.length == 2){
             if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("villainjoin")){
