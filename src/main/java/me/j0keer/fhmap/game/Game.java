@@ -465,7 +465,7 @@ public class Game implements Listener {
                     int tries = repeatableBlocks.get(getBlockOnTop.getLocation()) == null ? 0 : repeatableBlocks.get(getBlockOnTop.getLocation());
                     tries++;
                     repeatableBlocks.put(getBlockOnTop.getLocation(), tries);
-                    if (tries < 5) {
+                    if (tries < 2) {
                         GameSound.BLOCK_COIN.play(p, 0.3f, 1);
                         //dataPlayer.addCoin();
                         ItemObject object = new ItemObject(ItemObject.ItemObjectType.COIN, getPlugin());
